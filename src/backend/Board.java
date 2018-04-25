@@ -2,18 +2,20 @@ package backend;
 
 import gui.GameBoard;
 
-import javax.swing.*;
 import java.util.*;
 import java.util.List;
-
-public class Board {
-    private List<Card> cards;
+/**
+ *
+ */
+public class Board{
+    private final List<Card> cards;
     private Card selectedCard;
     private int c1;
     public final  int sizeX;
     public final int sizeY;
+    public long startTime;
     /**
-     *
+     * TODO
      * @param sizeX
      * @param sizeY
      */
