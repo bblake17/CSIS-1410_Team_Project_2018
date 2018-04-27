@@ -37,6 +37,7 @@ public class Board{
         final Card card = cards.get(index);
         if(selectedCard != null){
             if (selectedCard == card){
+                if (index == c1) return card;
                 cards.set(c1, null);
                 cards.set(index, null);
                 game.match(c1, index, true);

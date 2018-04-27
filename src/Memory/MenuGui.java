@@ -5,6 +5,9 @@ import java.awt.*;
 import backend.Board;
 import gui.GameBoard;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
@@ -17,7 +20,17 @@ public class MenuGui extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args){
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(GameBoard.class.getResource("/resources/music/loop.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch(Exception ex) {
+			System.out.println("Error with playing sound.");
+			ex.printStackTrace();
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

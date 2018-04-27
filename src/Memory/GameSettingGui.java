@@ -23,7 +23,7 @@ import javax.swing.ImageIcon;
 
 public class GameSettingGui extends JFrame{
 	public static byte size = 0;
-    public static byte theme = 0;
+	public static byte theme = 0;
 
 	static{
 	    readFromFile();

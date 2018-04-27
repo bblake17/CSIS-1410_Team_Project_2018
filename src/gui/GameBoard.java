@@ -8,10 +8,13 @@ import backend.Card;
 import resources.IO;
 
 import java.awt.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -62,22 +65,26 @@ public class GameBoard{
     }
     private boolean lock1 = false;
     private boolean lock2 = false;
-    private boolean lock3 = false;
+    private boolean wait = false;
     /**
      *
      * @return
      */
     private boolean getLock(int numLocks){
-        if(numLocks > 1) return !lock1 && !lock2 && (lock1 = lock2 = true);
-        if (lock3) return !lock2 && (lock2 = true);
-        return lock1 = lock3 = true;
+        if(numLocks > 1){
+            wait = true;
+            return !lock1 && !lock2 && (lock1 = lock2 = true);
+        }
+        if (wait) return false;
+        else if (lock1) return !lock2 && (lock2 = true);
+        return lock1 = true;
     }
     /**
      *
      * @return
      */
     private void releaseLock(int numLocks){
-        if(numLocks > 1) lock1 = lock2 = lock3 = false;
+        if(numLocks > 1) lock1 = lock2 = wait = false;
         if (lock2) lock2 = false;
         else if (lock1) lock1 = false;
     }
@@ -92,10 +99,8 @@ public class GameBoard{
         if (success){
             buttons.get(c1).setEnabled(false);
             buttons.get(c2).setEnabled(false);
-            lock3 = false;
-        }else{
-            new Animation(c1, c2).start();
-        }
+            wait = false;
+        }else  new Animation(c1, c2).start();
         if (board.getRemainingCards().isEmpty()){
             Container container = this.panel;
             while(!(container instanceof JFrame)) container = container.getParent();
